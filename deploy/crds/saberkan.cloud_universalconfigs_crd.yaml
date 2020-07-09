@@ -1,0 +1,22 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: universalconfigs.saberkan.cloud
+spec:
+  group: saberkan.cloud
+  names:
+    kind: UniversalConfig
+    listKind: UniversalConfigList
+    plural: universalconfigs
+    singular: universalconfig
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
+    served: true
+    storage: true
+    subresources:
+      status: {}

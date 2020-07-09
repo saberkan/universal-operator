@@ -1,0 +1,7 @@
+apiVersion: saberkan.cloud/v1alpha1
+kind: UniversalConfig
+metadata:
+  name: example-universalconfig
+spec:
+  # Add fields here
+  size: 3
