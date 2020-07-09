@@ -1,2 +1,7 @@
 ---
-# tasks file for universalconfig
+- name: Deploy namespace config camelCase
+  k8s:
+    state: present
+    definition:
+      "{{ item }}"   
+  loop: "{{ _saberkan_cloud_universalconfig_spec.manifests }}"

@@ -16,8 +16,11 @@ spec:
       serviceAccountName: universal-operator
       containers:
         - name: universal-operator
-          # Replace this with the built image name
-          image: "REPLACE_IMAGE"
+          image: "quay.io/saberkan/universal-operator:v0.0.1"
+          resources:
+            requests:
+              cpu: '1'
+              memory: 500Mi
           imagePullPolicy: "Always"
           volumeMounts:
           - mountPath: /tmp/ansible-operator/runner

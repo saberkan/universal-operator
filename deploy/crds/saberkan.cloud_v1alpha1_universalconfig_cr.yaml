@@ -3,5 +3,26 @@ kind: UniversalConfig
 metadata:
   name: example-universalconfig
 spec:
-  # Add fields here
-  size: 3
+  manifests:
+    - kind: LimitRange
+      apiVersion: v1
+      metadata:
+        name: overcommit-limits-1
+        namespace: saberkan
+      spec:
+        limits:
+        - type: Container
+          maxLimitRequestRatio:
+            cpu: '100'
+            memory: '1'
+    - kind: LimitRange
+      apiVersion: v1
+      metadata:
+        name: overcommit-limits-2
+        namespace: saberkan
+      spec:
+        limits:
+        - type: Container
+          maxLimitRequestRatio:
+            cpu: '100'
+            memory: '1'
