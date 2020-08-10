@@ -1,0 +1,157 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "saberkan.cloud/v1alpha1",
+          "kind": "UniversalConfig",
+          "metadata": {
+            "name": "example-universalconfig"
+          },
+          "spec": {
+            "manifests": [
+              {
+                "apiVersion": "v1",
+                "kind": "LimitRange",
+                "metadata": {
+                  "name": "overcommit-limits-1",
+                  "namespace": "saberkan"
+                },
+                "spec": {
+                  "limits": [
+                    {
+                      "maxLimitRequestRatio": {
+                        "cpu": "100",
+                        "memory": "1"
+                      },
+                      "type": "Container"
+                    }
+                  ]
+                }
+              },
+              {
+                "apiVersion": "v1",
+                "kind": "LimitRange",
+                "metadata": {
+                  "name": "overcommit-limits-2",
+                  "namespace": "saberkan"
+                },
+                "spec": {
+                  "limits": [
+                    {
+                      "maxLimitRequestRatio": {
+                        "cpu": "100",
+                        "memory": "1"
+                      },
+                      "type": "Container"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    capabilities: Basic Install
+  name: universal-operator.v0.1.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: UniversalConfig
+      name: universalconfigs.saberkan.cloud
+      version: v1alpha1
+  description: UniversalOperator
+  displayName: UniversalOperator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - '*'
+          resources:
+          - '*'
+          verbs:
+          - '*'
+        - nonResourceURLs:
+          - '*'
+          verbs:
+          - '*'
+        serviceAccountName: cluster-admin
+      deployments:
+      - name: universal-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: universal-operator
+          strategy: {}
+          template:
+            metadata:
+              labels:
+                name: universal-operator
+            spec:
+              containers:
+              - env:
+                - name: WATCH_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.annotations['olm.targetNamespaces']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: OPERATOR_NAME
+                  value: universal-operator
+                - name: ANSIBLE_GATHERING
+                  value: explicit
+                image: quay.io/saberkan/universal-operator:v0.0.1
+                imagePullPolicy: Always
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 6789
+                  initialDelaySeconds: 5
+                  periodSeconds: 3
+                name: universal-operator
+                resources:
+                  requests:
+                    cpu: "1"
+                    memory: 500Mi
+                volumeMounts:
+                - mountPath: /tmp/ansible-operator/runner
+                  name: runner
+              serviceAccountName: universal-operator
+              volumes:
+              - emptyDir: {}
+                name: runner
+    strategy: deployment
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - openshift
+  - universal
+  - namespace
+  links:
+  - name: Universal Operator
+    url: https://universal-operator.domain
+  maintainers:
+  - email: salahddine.aberkan@gmail.com
+    name: saberkan
+  maturity: alpha
+  provider:
+    name: saberkan
+  version: 0.1.0
