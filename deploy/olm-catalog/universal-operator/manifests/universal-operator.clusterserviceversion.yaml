@@ -83,7 +83,7 @@ spec:
           - '*'
           verbs:
           - '*'
-        serviceAccountName: cluster-admin
+        serviceAccountName: universal-operator
       deployments:
       - name: universal-operator
         spec:
