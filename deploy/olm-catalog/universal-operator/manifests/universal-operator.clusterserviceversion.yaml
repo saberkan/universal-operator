@@ -55,7 +55,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-  name: universal-operator.v0.1.0
+  name: universal-operator.v0.0.1
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -154,4 +154,4 @@ spec:
   maturity: alpha
   provider:
     name: saberkan
-  version: 0.1.0
+  version: 0.0.1
