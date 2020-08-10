@@ -1,15 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-  creationTimestamp: "2020-08-10T08:44:28Z"
-  labels:
-    kubernetes.io/bootstrapping: rbac-defaults
-  name: cluster-admin
-  resourceVersion: "60"
-  selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/cluster-admin
-  uid: 04bc7dd3-f293-480a-b1b2-d73287852a7a
+  name: universal-operator
 rules:
 - apiGroups:
   - '*'
